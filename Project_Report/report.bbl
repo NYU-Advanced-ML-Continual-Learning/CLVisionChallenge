@@ -1,4 +1,16 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{he2016deep}
+{\sc He, K., Zhang, X., Ren, S., and Sun, J.}
+\newblock Deep residual learning for image recognition.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition\/} (2016), pp.~770--778.
+
+\bibitem{huang2017densely}
+{\sc Huang, G., Liu, Z., Van Der~Maaten, L., and Weinberger, K.~Q.}
+\newblock Densely connected convolutional networks.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition\/} (2017), pp.~4700--4708.
 
 \bibitem{kirkpatrick2017overcoming}
 {\sc Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G.,
@@ -34,11 +46,21 @@
 \newblock In {\em Psychology of learning and motivation}, vol.~24. Elsevier,
   1989, pp.~109--165.
 
+\bibitem{parisi2019continual}
+{\sc Parisi, G.~I., Kemker, R., Part, J.~L., Kanan, C., and Wermter, S.}
+\newblock Continual lifelong learning with neural networks: A review.
+\newblock {\em Neural Networks\/} (2019).
+
 \bibitem{rusu2016progressive}
 {\sc Rusu, A.~A., Rabinowitz, N.~C., Desjardins, G., Soyer, H., Kirkpatrick,
   J., Kavukcuoglu, K., Pascanu, R., and Hadsell, R.}
 \newblock Progressive neural networks.
 \newblock {\em arXiv preprint arXiv:1606.04671\/} (2016).
+
+\bibitem{simonyan2014very}
+{\sc Simonyan, K., and Zisserman, A.}
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock {\em arXiv preprint arXiv:1409.1556\/} (2014).
 
 \bibitem{thrun1995lifelong}
 {\sc Thrun, S.}
@@ -50,5 +72,11 @@
 {\sc Yoon, J., Yang, E., Lee, J., and Hwang, S.~J.}
 \newblock Lifelong learning with dynamically expandable networks.
 \newblock {\em arXiv preprint arXiv:1708.01547\/} (2017).
+
+\bibitem{zhou2012online}
+{\sc Zhou, G., Sohn, K., and Lee, H.}
+\newblock Online incremental feature learning with denoising autoencoders.
+\newblock In {\em Artificial intelligence and statistics\/} (2012),
+  pp.~1453--1461.
 
 \end{thebibliography}

@@ -1,10 +1,13 @@
-\section{Dataset and Experiment Design}
+\section{Dataset and Experiment Design} \label{design}
+In this section, we introduce the dataset \textit{CORe50} realeased by CVPR Workshop. Their dataset consist of three parts, and due to the constraint of time, we only consider the first two part of the three challenges. Then, we select two representative approaches for Continual Learning, EWC and Piggyback, and introduce the theorem and some core details about them.
+
 \subsection{Dataset and Tasks}
 \textit{CORe50} is a new dataset specially designed for \textit{(C)ontinual (O)bject (Re)cognition}. Unlike \textit{permuted MNIST}  where new tasks to learn are obtained by simply scrambling the pixel positions, \textit{CORe50} is much more complex and a real life dataset. Datasets such as \textit{ImageNet} and \textit{Pascal VOC} provide a good playground for image classification and detection, but they have been designed with “static” evaluation and lack of multiple views of the same objects taken into different sessions, \textit{CORe50} solves the above problems and meets the requirement for continuous learning scenarios on computer vision.
 
 It consists 50 domestic objects belonging to 10 categories. The dataset is separated into 11 distinct sessions (8 indoors and 3 outdoors) with different background and lightning. For each session and for each object, a 15 seconds video (at 20 fps) has been recorded with a Kinect 2.0 sensor delivering 300 RGB-D frames. 
-\begin{figure}[hp]
+\begin{figure}[h]
   \centering
+  \captionsetup{width=0.6\textwidth}
   \includegraphics[width=0.8\textwidth]{figure/core50.png}
   \caption{Example images of the 50 objects in CORe50. Each column denotes one of the 10 categories.}
   \label{core50}
@@ -17,19 +20,24 @@ There are three tasks in CVPR 2020 Workshop \textit{CLVision Challenge}:
 \item \textbf{New Instances and Classes(NIC)}: New training patterns belonging both to known and new classes become available in subsequent training batches. A good model is expected to consolidate its knowledge about the known classes and to learn the new ones.
 \end{itemize} 
 
+\subsection{EWC}
+\textcolor{red}{PlaceHolder}
+
 
 \subsection{Piggyback}
+Piggyback is a upgrading version of Packnet, it uses pure mask layer to mask weights for new task. In this part, we introduce the core idea and the mathemetical representation of Piggyback. We also demonstrate some of the techniques used in training for Piggyback.
+
 \subsubsection{Theorem}
-\begin{figure}[hbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.8\textwidth]{figure/piggyback.png}
   \caption{Piggyback Overview}
   \label{piggy}
 \end{figure}
 
-Piggyback adopts masking weight for new task to overcome catastrophic forgetting. The core idea is to selectively mask the fixed weights of a base network, and then use this mask to predict the new task. That is, given model $\mathbf{W}$, the optimizer will genrate and optimize a binary mask weight $\mathbf{W}^\star$. The gradient that backpropagates to the layer will not affect $\mathbf{W}$ but $\mathbf{W}^{\star}$. In this way, for a given task, we can obtain a filter vecotor that is consist of 0/1. For example, a weight dense vector [0.1, 0.2, 0.3, 0.4] can be filtered to [0, 0.2, 0.3, 0] after the binary masking. In short, we does not learn what are the `right` parameters but learn what is not the `right` parameters. Therefore, the choice of backbone network is crucial to the performance of piggyback because if the original weights are malfunctioning, pure masking cannot greatly improve the accuracy.
+Piggyback adopts masking weight for new task to overcome catastrophic forgetting. The core idea is to selectively mask the fixed weights of a base network, and then use this mask to predict the new task. That is, given model $\mathbf{W}$, whenever there is a new task streaming in, the model will initialize and optimize a binary value matrix $\mathbf{m}$, and use this mask to generate weight $\mathbf{W^\star}$ to be used in prediction for this specific new task. The gradient that backpropagates to the layer will not affect $\mathbf{W}$ but $\mathbf{m}$. In this way, for a given task, we can obtain filters that is consist of 0/1. For example, a dense weight vector [0.1, 0.2, 0.3, 0.4] could be filtered to [0, 0.2, 0.3, 0] after the binary masking. In short, we does not learn what are the `right` parameters but learn what is not the `right` parameters. Therefore, the choice of backbone network is crucial to the performance of piggyback because if the original weights are malfunctioning, pure masking cannot greatly improve the accuracy.
 
-The structure of \textit{Piggyback} is shown in figure \ref{piggy}. To explain the procedure for training, we consider an end to end fully-connected layer case. Denote $\mathbf{x}=[x_1, x_2, ..., x_m]$ as input, and $\mathbf{y}=[y_1, y_2, ..., y_n]$ as output. Therefore the weight matrix is $\mathbf{W}^{n\times m}$. Without loss of genrality, we can simply assume $\mathbf{y}=\mathbf{W}\mathbf{x}$ by ignoring the bias term. Suppose the loss function is $L$, the backpropagation equation for $\mathbf{W}$ is,
+The structure of \textit{Piggyback} is shown in Figure \ref{piggy}. To explain the procedure for training, we consider an end to end fully-connected layer case. Denote $\mathbf{x}=[x_1, x_2, ..., x_m]$ as input, and $\mathbf{y}=[y_1, y_2, ..., y_n]$ as output. The weight matrix for this layer is $\mathbf{W}^{n\times m}$. Without loss of genrality, we can simply assume $\mathbf{y}=\mathbf{W}\mathbf{x}$ by ignoring the bias term. Suppose the loss function is $L$, the normal backpropagation equation for $\mathbf{W}$ is,
 \begin{equation}
 \centering
 \begin{aligned}
@@ -38,14 +46,14 @@ The structure of \textit{Piggyback} is shown in figure \ref{piggy}. To explain t
 \therefore \delta \mathbf{W} &= \delta \mathbf{y} \cdot  \mathbf{x^T} \\
 \end{aligned}
 \end{equation}
-In \textit{Piggyback}, the author has introduced a real value matrix $\mathbf{M_r}^{n\times m}$ and a manually set threshold $\tau$. We denote the mask matrices as $\mathbf{M}=[m]_{ji}$, and we can obtain $m_{ji}$ by,
+In \textit{Piggyback}, the author has introduced a real value mask matrix $\mathbf{M_r}^{n\times m}$ and a manually set threshold $\tau$. $M_r$ is used to create the binary mask matrix $\mathbf{M}=[m_{ji}]$. We can obtain $m_{ji}$ by,
 \begin{equation}
 m_{ji}=\begin{cases}
 1,\ \ &{\rm if}\ m^r_{ji}>\tau \\
 0,\ \ &{\rm otherwise} \\
 \end{cases}
 \end{equation}
-Then, for $y_j\in\mathbf{y}$, it gives $y_j=\sum_{i=1}^m w_{ji}\cdot m_{ji} \cdot x_i$. The backpropagation equation is used to update the real value matrix $M_r$. That is, during the whole training procedure, the weight matrix $\mathbf{W}$ is fixed as constant. In \textit{Piggyback}, the mask weigths updates as follows. Here, $A\odot B = C=[c_{ji}=A_{ji}B_{ji}]$. 
+Then, for $y_j\in\mathbf{y}$, it gives $y_j=\sum_{i=1}^m w_{ji}\cdot m_{ji} \cdot x_i$. The backpropagation equation is used to update the real value matrix $M_r$. That is, during the whole training procedure, the weight matrix $\mathbf{W}$ is fixed as constant. In \textit{Piggyback}, the modified mask weigths updates as follows. Here, $A\odot B = C=[c_{ji}=A_{ji}B_{ji}]$. 
 
 \begin{equation}
 \begin{aligned}
