@@ -1,0 +1,54 @@
+\begin{thebibliography}{1}
+
+\bibitem{kirkpatrick2017overcoming}
+{\sc Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G.,
+  Rusu, A.~A., Milan, K., Quan, J., Ramalho, T., Grabska-Barwinska, A., et~al.}
+\newblock Overcoming catastrophic forgetting in neural networks.
+\newblock {\em Proceedings of the national academy of sciences 114}, 13 (2017),
+  3521--3526.
+
+\bibitem{li2017learning}
+{\sc Li, Z., and Hoiem, D.}
+\newblock Learning without forgetting.
+\newblock {\em IEEE transactions on pattern analysis and machine intelligence
+  40}, 12 (2017), 2935--2947.
+
+\bibitem{mallya2018piggyback}
+{\sc Mallya, A., Davis, D., and Lazebnik, S.}
+\newblock Piggyback: Adapting a single network to multiple tasks by learning to
+  mask weights.
+\newblock In {\em Proceedings of the European Conference on Computer Vision
+  (ECCV)\/} (2018), pp.~67--82.
+
+\bibitem{mallya2018packnet}
+{\sc Mallya, A., and Lazebnik, S.}
+\newblock Packnet: Adding multiple tasks to a single network by iterative
+  pruning.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition\/} (2018), pp.~7765--7773.
+
+\bibitem{mccloskey1989catastrophic}
+{\sc McCloskey, M., and Cohen, N.~J.}
+\newblock Catastrophic interference in connectionist networks: The sequential
+  learning problem.
+\newblock In {\em Psychology of learning and motivation}, vol.~24. Elsevier,
+  1989, pp.~109--165.
+
+\bibitem{rusu2016progressive}
+{\sc Rusu, A.~A., Rabinowitz, N.~C., Desjardins, G., Soyer, H., Kirkpatrick,
+  J., Kavukcuoglu, K., Pascanu, R., and Hadsell, R.}
+\newblock Progressive neural networks.
+\newblock {\em arXiv preprint arXiv:1606.04671\/} (2016).
+
+\bibitem{thrun1995lifelong}
+{\sc Thrun, S.}
+\newblock A lifelong learning perspective for mobile robot control.
+\newblock In {\em Intelligent Robots and Systems\/} (1995), Elsevier,
+  pp.~201--214.
+
+\bibitem{yoon2017lifelong}
+{\sc Yoon, J., Yang, E., Lee, J., and Hwang, S.~J.}
+\newblock Lifelong learning with dynamically expandable networks.
+\newblock {\em arXiv preprint arXiv:1708.01547\/} (2017).
+
+\end{thebibliography}
