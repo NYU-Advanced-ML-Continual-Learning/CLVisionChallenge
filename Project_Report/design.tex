@@ -1,7 +1,26 @@
 \section{Dataset and Experiment Design}
+\subsection{Dataset and Tasks}
+\textit{CORe50} is a new dataset specially designed for \textit{(C)ontinual (O)bject (Re)cognition}. Unlike \textit{permuted MNIST}  where new tasks to learn are obtained by simply scrambling the pixel positions, \textit{CORe50} is much more complex and a real life dataset. Datasets such as \textit{ImageNet} and \textit{Pascal VOC} provide a good playground for image classification and detection, but they have been designed with “static” evaluation and lack of multiple views of the same objects taken into different sessions, \textit{CORe50} solves the above problems and meets the requirement for continuous learning scenarios on computer vision.
+
+It consists 50 domestic objects belonging to 10 categories. The dataset is separated into 11 distinct sessions (8 indoors and 3 outdoors) with different background and lightning. For each session and for each object, a 15 seconds video (at 20 fps) has been recorded with a Kinect 2.0 sensor delivering 300 RGB-D frames. 
+\begin{figure}[hp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figure/core50.png}
+  \caption{Example images of the 50 objects in CORe50. Each column denotes one of the 10 categories.}
+  \label{core50}
+\end{figure}
+
+There are three tasks in CVPR 2020 Workshop \textit{CLVision Challenge}:
+\begin{itemize}
+\item \textbf{New Classes(NC)}: New training patterns belonging to different classes become available in subsequent batches. In this case the model should be able to deal with the new classes without losing accuracy on the previous ones.
+\item \textbf{New Instances(NI)}: New training patterns of the same classes become available in subse- quent batches with new poses and conditions (illumination, background, occlusion, etc.). A good model is expected to incrementally consolidate its knowledge about the known classes without compromising what it has learned before.
+\item \textbf{New Instances and Classes(NIC)}: New training patterns belonging both to known and new classes become available in subsequent training batches. A good model is expected to consolidate its knowledge about the known classes and to learn the new ones.
+\end{itemize} 
+
+
 \subsection{Piggyback}
 \subsubsection{Theorem}
-\begin{figure}
+\begin{figure}[hbp]
   \centering
   \includegraphics[width=0.8\textwidth]{figure/piggyback.png}
   \caption{Piggyback Overview}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.5.8)  26 APR 2020 11:56
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.5.8)  26 APR 2020 16:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -523,14 +523,25 @@ Package natbib Warning: Citation `parisi2019continual' on page 2 undefined on i
 nput line 2.
 
 ) (./design.tex
+Missing character: There is no “ in font ptmr8t!
+Missing character: There is no ” in font ptmr8t!
+File: figure/core50.png Graphic file (type bmp)
+<figure/core50.png>
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 15.
+ (/usr/local/texlive/2019/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 15.
+[2]
 File: figure/piggyback.png Graphic file (type bmp)
 <figure/piggyback.png>
- [2]
+ [3]
 
-Package natbib Warning: Citation `he2016deep' on page 3 undefined on input line
- 39.
+Package natbib Warning: Citation `he2016deep' on page 4 undefined on input line
+ 58.
 
-) (./eval.tex) (./conclusion.tex) [3] (./report.bbl [4])
+) (./eval.tex) (./conclusion.tex) [4] (./report.bbl)
 
 Package natbib Warning: There were undefined citations.
 
@@ -541,16 +552,16 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 154.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 154.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 154.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 054D17A912CE0414165868FD4B74B110.
+(rerunfilecheck)             Checksum: 5CFA26EFDE9FBC56CC5FF358D4379690.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 154.
  ) 
 Here is how much of TeX's memory you used:
- 11402 strings out of 492916
- 165137 string characters out of 6133346
- 276971 words of memory out of 5000000
- 15314 multiletter control sequences out of 15000+600000
+ 11425 strings out of 492916
+ 165543 string characters out of 6133346
+ 276165 words of memory out of 5000000
+ 15333 multiletter control sequences out of 15000+600000
  34467 words of font info for 54 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 33i,8n,45p,1388b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 33i,8n,45p,1388b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on report.pdf (5 pages).
