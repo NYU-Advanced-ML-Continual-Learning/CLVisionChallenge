@@ -37,7 +37,7 @@ From a probabilistic perspective: optimizing the parameters is tantamount to fin
 
 \begin{equation}
 \begin{aligned}
-\log p(\theta | \mathcal{D})=\log p\left(\mathcal{D}_{B} | \theta\right)+\log p\left(\theta | \mathcal{D}_{A}\right)-\log p\left(\mathcal{D}_{B}\right)
+\log p(\theta | \mathcal{D})=\log p(\mathcal{D} | \theta)+\log p(\theta)-\log p(\mathcal{D})
 \end{aligned}
 \end{equation}
 
@@ -50,7 +50,15 @@ Similarly we can apply Bayes' rule on two continuous tasks A and B:
 \end{equation}
 
 While $\log p(\mathcal{D}_{B}|\theta)$ is negative training loss for task B, we can optimize this by gradient descent.
-$\log p(\mathcal{D}_{B})$ is a constant, we don't need to care about it when optimizing for the overall goal. $\log p(\theta|\mathcal{D}_{A})$ ‘s real value is intractable and will be approximated by Laplace approximation. The approximated value can further be the derivation regarding approximated mean value and its corresponding Hessian matrix. Noted that the expected value of Hessian matrix is the negative value of Fisher information matrix $F$, thus the original goal of maximizing $\log p(\theta | \mathcal{D})$ is equivalent to minimizing the following loss function:
+$\log p(\mathcal{D}_{B})$ is a constant, we don't need to care about it when optimizing for the overall goal. $\log p(\theta|\mathcal{D}_{A})$ ‘s real value is intractable and will be approximated by Laplace approximation. Suppose parameter $\theta$ is a Gaussian distribution with average $\hat{\theta}$. The approximated value can further be the derivation regarding approximated mean value and its corresponding Hessian matrix: 
+\begin{align*}
+   h(\theta| \mathcal{D}_{A}) &=  \log p(\theta| \mathcal{D}_{A})\\
+ & \approx h(\hat{\theta}| \mathcal{D}_{A})+(\theta-\hat{\theta}) h^{\prime}(\hat{\theta}| \mathcal{D}_{A})+\frac{1}{2}(\theta-\hat{\theta})^{2} h^{\prime \prime}(\hat{\theta}| \mathcal{D}_{A})\\
+ &= \operatorname{const}+\frac{1}{2}(\theta-\hat{\theta})^{2} h^{\prime \prime}(\theta| \mathcal{D}_{A})
+\end{align*}
+
+Noted that the expected value of Hessian matrix is the negative value of Fisher information matrix $F$, thus the original goal of maximizing $\log p(\theta | \mathcal{D})$ is equivalent to minimizing the following loss function:
+
 
 \begin{equation}
 \mathcal{L}(\theta)=\mathcal{L}_{B}(\theta)+\sum_{i} \frac{\lambda}{2} F_{i}\left(\theta_{i}-\theta_{A, i}^{*}\right)^{2}
