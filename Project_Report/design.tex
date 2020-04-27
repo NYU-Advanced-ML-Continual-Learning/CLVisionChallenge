@@ -22,7 +22,15 @@ There are three tasks in CVPR 2020 Workshop \textit{CLVision Challenge}:
 \end{itemize} 
 
 \subsection{EWC}
-n brains, synaptic consolidation enables continual learning by reducing the plasticity of synapses that are vital to previously learned tasks.  \textit{EWC} is an algorithm that performs a similar operation in artificial neural networks by constraining important parameters to stay close to their old values. \textit{EWC} can be used in supervised learning and reinforcement learning problems to train several tasks sequentially without forgetting older ones.
+In brains, synaptic consolidation enables continual learning by reducing the plasticity of synapses that are vital to previously learned tasks.  \textit{EWC} is an algorithm that performs a similar operation in artificial neural networks by constraining important parameters to stay close to their old values. \textit{EWC} can be used in supervised learning and reinforcement learning problems to train several tasks sequentially without forgetting older ones.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{width=0.6\textwidth}
+  \includegraphics[width=0.8\textwidth]{figure/ewc.png}
+  \caption{By applying \textit{EWC}, the model of the weights can learn the new task while still maintain in the range of solving the old task. (Red arrow)}
+  \label{EWC}
+\end{figure}
 
 \subsubsection{Theorem}
 From a probabilistic perspective: optimizing the parameters is tantamount to finding their most probable values given some data D. We can compute this conditional probability $p(\theta | \mathcal{D})$ from the prior probability of the parameters $p(\theta)$ and the probability of the data $p(\mathcal{D}|\theta)$ by using Bayes’ rule:
@@ -50,6 +58,8 @@ $\log p(\mathcal{D}_{B})$ is a constant, we don't need to care about it when opt
 
 where $\mathcal{L}_{\mathcal{B}}(\theta)$ is the loss for task B only and hyperparameter $\lambda$ sets how important the old task is compared to the new task. When the third task comes, you can treat all previous tasks as the old task and repeat the above process. In the end, it can ensure the model can learn new tasks without changing the weights for the previous tasks too much. 
 
+\subsubsection{Experiment Setting}
+After several experiments, we set the hyperparameter $\lambda$ = 100, which we think it is an appropriate value of how important the old task is to the new task. The best results are produced by SGD as the optimizer.
 
 
 
