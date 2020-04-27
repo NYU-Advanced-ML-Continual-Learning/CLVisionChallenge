@@ -1,31 +1,48 @@
 \section{Evaluation and Analyze}\label{eval}
 In this part, we evaluate the performance of \textit{EWC} and \textit{Piggyback}. We will discuss the performance for them on NI(New Instance) case and NIC(New Instance and Class) case respectively. Then we will analyze their performance case by case. According to the guideline of the \textit{CLVision Challenge}, we use average accuracy, i.e. the mean accuracy per task as the metrics. Besides, metrics including maximum RAM usage, average RAM usage and training time should also be taken into account to validate the performance.
-\begin{table}[h]
-\caption{Average Accuracy Performance for EWC/Piggyback}
+
+\subsection{EWC}
+In this part, due to the requirements of GPU memory, all of our experiments are done with a linux server with Intel Broadwell CPU platform, 52 GB RAM and Tesla T4 GPU with 16GB SDRAM. In all our cases, we set batch size to 32, with learning rate at 0.01 and decay one tenth every 5 epochs. To achieve better performance, we will load the pre-trained ResNet50 and apply \textit{EWC} on all following tasks. 
+
+\subsection{Piggyback}
+As mentioned in Section \ref{design}, the choice of a well-trained base network is crucial to the performance of $Piggyback$. In this part, all of our experiments are done on a platform with CPU i7 8700K, 32GB RAM, and RTX 2080 GPU with 8GB SDRAM. In all our cases, we set batch size to 32, with learning rate at $1e-4$ and decay one tenth every 5 epochs. At the very first, we have followed the setting in the paper, but failed to reproduce the result. We have tried out ImageNet-pretrained VGG16\cite{simonyan2014very}, DenseNet\cite{huang2017densely} and ResNet50 as base network but the best average accuracy we can reach is 0.1037 in NIC case and 0.2103 in NI case, which is even far worse than the baseline. Considering the principle of Piggyback, we deem that it is the worse performance of the orignal model that causes the bad performance for Piggyback. We test the accuracy before training and it is only 0.0148. This worse performance could be caused by the under-training of the fully connected layer in these three models. As mentioned before, there are 50 classes in our dataset, considering these 50 classes are not similar to what it is in the pre-trained network, there pre-trained weights do not work well on predicting the label of new task. Therefore, modification of the mask can partially solve the problem, but the core cause is the poor performance of the original weight.
+
+To solve this problem, we modified the training procedure. We still load the pre-trained weights for ResNet50 and let the model run EWC at the first task. Then, at the proceeding task, we create mask layer $\mathbf{m_r}$ for the model, and run Piggyback. In this approach, we have raised the final average validation accuracy to 0.53 in NC case, which is slightly better than our baseline. In NI case, the 
+
+\subsection{Analyze}
+\begin{table}
+\caption{Performance for EWC/Piggyback}
 \label{performance}
 \centering
 \begin{tabular}{c|cccc}
 	\toprule
 	Scenario & Baseline(ResNet50) & EWC & Piggyback(ResNet50) & Piggyback(EWC Combined) \\
 	\midrule
-	NI-val & 0.54 & 0.59 & 0.21 & 0.62 \\
+	NI-val & 0.54 & \textbf{0.69} & 0.21 & 0.62 \\
 	\midrule
-	NI-test & 0.71 & 0.64 & - & 0.74 \\
+	NI-test & 0.71 & \textbf{0.75} & - & 0.74 \\
 	\midrule
-	NIC-val & 0.46 & 0.52 & 0.10 & 0.53 \\
+	NI-RAM(MB) & \textbf{15378.31} & 22149.00  & 16287.79 &  21846.47 \\
 	\midrule
-	NIC-test & 0.83 & 0.89 & - & 0.92 \\
+	NC-val & 0.51 & 0.54 & 0.10 & \textbf{0.71} \\
+	\midrule
+	NC-test & 0.81 & \textbf{0.89} & - & 0.82 \\
+	\midrule
+	NC-RAM(MB)  & \textbf{13970.41} &  29170.46 & 14320.47 &  14787.31 \\
 	\bottomrule
 \end{tabular}
 \end{table}
+The summarization of the performance result is shown in Tabel \ref{performance}. Here *-val represents the performance on validation set, *-test is the performance on test data set. Accuracy on validation dataset is the average of per-task accuracy. Throughout the training process, the validationset is fixed. Therefore, this index can represent how much the model have mitigated the catastrophic forgetting. Since the label for the test dataset is not provided, the accuracy on test dataset is acquired by submitting the result to the official site.  Therefore, we do not validate the test performance of Piggyback due to its poor performance. 
+\begin{itemize}
+\item \textbf{NI} 
+From the perspective of validatoin accuracy, EWC performs the best, scoring 0.69 in validation and 0.75 in test. It demonstrates EWC's ablility to reach and maintain high accuracy after iterating through 8 batches of new instance data. However, due to EWC have to retrain the whole network when encountering new task, it consumes much more RAM than Piggyback and the baseline. 
+\item \textbf{NC}
+In NC case, EWC is still the best in test accuracy. Piggyback combined with EWC outperforms EWC on validation accuracy. This could be caused by the under training in the very beginning. EWC and baseline are under-training in the first several batches, causing the low performance at the beginning. However, EWC ends up with a high accuracy after it sees more and more samples, while Piggyback will train a mask weight separately for each task, ending up with a more stable performance per task. As for RAM usage, EWC still uses the most RAM. And there is no significant difference between 
+\end{itemize}
 
-\subsection{EWC}
-In this part, due to the requirements of GPU memory, all of our experiments are done with a linux server with Intel Broadwell CPU platform, 52 GB RAM and Tesla T4 GPU with 16GB SDRAM. In all our cases, we set batch size to 32, with learning rate at 0.01 and decay one tenth every 5 epochs. To achieve better performance, we will load the pre-trained ResNet50 and apply \textit{EWC} on all following tasks. 
+From this result, we can see that EWC is better than modified Piggyback regarding the accuracy, however its memory consumption is also larger. Besides, in a online setting, Piggyback is more stable than pure EWC. As for test accuracy, Piggyback has no significant advantage over the baseline network, indicating that it only works in some of the dataset, as pointed out in the paper by the author.
 
-\subsection{Piggyback}
-As mentioned in Section \ref{design}, the choice of a well-trained base network is crucial to the performance of $Piggyback$. In this part, all of our experiments are done in a PC with CPU i7 8700K, 32GB RAM, and RTX 2080 GPU with 8GB SDRAM. In all our cases, we set batch size to 32, with learning rate at $1e-4$ and decay one tenth every 5 epochs. At the very first, we have followed the setting in the paper, but failed to reproduce the result. We have tried out ImageNet-pretrained VGG16\cite{simonyan2014very}, DenseNet\cite{huang2017densely} and ResNet50 as base network but the best average accuracy we can reach is 0.1037 in NIC case and 0.2103 in NI case, which is even far worse than the baseline. Considering the principle of Piggyback, we deem that it is the worse performance of the orignal model that causes the bad performance for Piggyback. We test the accuracy before training and it is only 0.0148. This worse performance could be caused by the under-training of the fully connected layer in these three models. As mentioned before, there are 50 classes in our dataset, considering these 50 classes are not similar to what it is in the pre-trained network, there pre-trained weights do not work well on predicting the label of new task. Therefore, modification of the mask can partially solve the problem, but the core cause is the poor performance of the original weight.
 
-To solve this problem, we modified the training procedure. We still load the pre-trained weights for ResNet50 and let the model run EWC at the first task. Then, at the proceeding task, we create mask layer $\mathbf{m_r}$ for the model, and run Piggyback. In this approach, we have raised the final average validation accuracy to 0.53, which is slightly better than our baseline. 
 
-\subsection{Analyze}
-\textcolor{red}{PlaceHolder}
+
+
