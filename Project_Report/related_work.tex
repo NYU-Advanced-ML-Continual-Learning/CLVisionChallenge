@@ -1,2 +1,14 @@
 \section{Related Work}
-Continual Learning, also known as Lifelong Learning, is defined to be an algorithm which is capable of extracting knowledge from a continuous stream of data without forgetting the old knowledge, i.e. catastrophic forgetting\cite{parisi2019continual}.  
+In real life, data is coming as streams of information, thus the agent should have the ability to learn tasks continuously. However, the current dominant paradigm for machine learning is to generate a model for each task. This paradigm is \textit{isolated learning}\cite{zhiyuan2017lml} since it does not consider any related information or previous learned knowledge and it is contrast to human learning process.
+
+Continual Learning, also known as Lifelong Learning, is defined to be an algorithm which is capable of extracting knowledge from a continuous stream of data without forgetting the old knowledge, i.e. catastrophic forgetting\cite{thrun1995lifelong}, this phenomenon occurs because the weights trained for task A have been changed for task B. In \cite{parisi2019continual}, the author summarizes four major methods to prevent catastrophic forgetting: regularization methods, dynamic architectures, replay and complementary learning systems.  
+
+Regularization methods\cite{li2017learning}\cite{kirkpatrick2017overcoming} are inspired by theoretical neuroscience models which show that the previous learning knowledge can be protected from forgetting through synapse with a cascade of states yielding different levels of plasticity. They provide a way to solve catastrophic forgetting, but they comprise additional loss for protecting consolidated knowledge, which may be a trade-off on the performance of old and new tasks.
+
+Dynamic architectures methods \cite{rusu2016progressive}\cite{yoon2017lifelong} try to solve catastrophic forgetting by changing the model architecture when new information comes. This method prevents catastrophic forgetting but can rise the complexity of architectures with the growth of new tasks.
+
+Complementary learning theory shows a computational framework of modeling memory by the interplay of mammalian hippocampus and neocortex. Several works have been developed through this theory\cite{Mo19CLS}. Inspired by the generative role of hippocampus for the replay of previous experiences, \cite{Shin19DeepGen} proposed a dual-model architecture to replay previous tasks. 
+
+In general, continual learning is a open problem to be solved and many works can be done in this field
+ 
+ 
